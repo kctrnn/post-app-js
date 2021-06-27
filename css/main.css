@@ -83,8 +83,8 @@ ul {
 
 .btn--circle {
   border-radius: 50%;
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 4rem;
+  height: 4rem;
 }
 
 .btn > * {
@@ -93,4 +93,8 @@ ul {
 
 .btn:hover > * {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.is-hidden {
+  display: none;
 }

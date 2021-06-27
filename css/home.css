@@ -16,6 +16,7 @@
   font-size: 2.4rem;
   letter-spacing: 0.5rem;
   line-height: 2;
+  padding: 1.6rem 0;
 }
 
 .navbar-logo:hover {
@@ -24,6 +25,103 @@
 
 .menu-link > i {
   margin-right: 0.8rem;
+}
+
+/* SECTION CAROUSEL */
+.carousel {
+  position: relative;
+  height: 50rem;
+
+  overflow: hidden;
+}
+
+.carousel-inner {
+  height: 100%;
+  position: relative;
+
+  transition: transform 300ms ease-in-out;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.carousel-item > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-control-prev {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  width: 15%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+.carousel-control-prev,
+.carousel-control-next > i {
+  font-size: 2.4rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover > i {
+  color: rgba(255, 255, 255, 1);
+}
+
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  width: 15%;
+  height: 100%;
+
+  cursor: pointer;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.carousel-indicator {
+  width: 30px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 5px;
+  cursor: pointer;
+
+  background-clip: padding-box;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.carousel-indicator.active {
+  background-color: #fff;
 }
 
 /* SECTION POSTS */
