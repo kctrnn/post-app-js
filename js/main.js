@@ -1,109 +1,80 @@
-// Carousel
-const carouselList = document.querySelector('.carousel-inner');
-const carouselItems = Array.from(carouselList.children);
+import postApi from './api/postApi.js';
+import AppConstants from './appConstants.js';
+import utils from './utils.js';
 
-const prevButton = document.querySelector('.carousel-control-prev');
-const nextButton = document.querySelector('.carousel-control-next');
+// RENDER POSTS
+const renderPostItem = (post) => {
+  const postItemTemplate = document.getElementById('postItemTemplate');
+  const postItemElement = postItemTemplate.content.cloneNode(true);
 
-const carouselIndicatorList = document.querySelector('.carousel-indicators');
-const carouselIndicators = Array.from(carouselIndicatorList.children);
+  // Set title
+  const titleElement = postItemElement.getElementById('postItemTitle');
+  if (titleElement) {
+    titleElement.textContent = post.title;
+  }
 
-// get carousel item width
-const carouselItemWidth = carouselItems[0].getBoundingClientRect().width;
+  // Set description
+  const descriptionElement = postItemElement.getElementById('postItemDesc');
+  if (descriptionElement) {
+    descriptionElement.textContent = post.description;
+  }
 
-carouselItems.forEach((carouselItem, index) => {
-  carouselItem.style.left = carouselItemWidth * index + 'px';
-});
+  // Set image
+  const imageElement = postItemElement.getElementById('postItemImg');
+  if (imageElement) {
+    imageElement.src = post.imageUrl;
+  }
 
-const moveToCarouselItem = (
-  carouselList,
-  currentCarouselItem,
-  targetCarouselItem
-) => {
-  carouselList.style.transform = `translateX(-${targetCarouselItem.style.left})`;
+  // Set author
+  const authorElement = postItemElement.getElementById('postItemAuthor');
+  if (authorElement) {
+    authorElement.textContent = post.author;
+  }
 
-  currentCarouselItem.classList.remove('active');
-  targetCarouselItem.classList.add('active');
+  // Set time
+  const timeElement = postItemElement.getElementById('postItemTime');
+  if (timeElement) {
+    const timeString = utils.formatDate(post.createdAt);
+    timeElement.textContent = ` - ${timeString}`;
+  }
+
+  return postItemElement;
 };
 
-const updateIndicators = (currentIndicator, targetIndicator) => {
-  currentIndicator.classList.remove('active');
-  targetIndicator.classList.add('active');
-};
+const renderPostList = (posts) => {
+  const postsElement = document.querySelector('.posts-list');
 
-const hideShowCarouselControl = (
-  carouselItems,
-  prevButton,
-  nextButton,
-  targetIndex
-) => {
-  if (targetIndex === 0) {
-    prevButton.classList.add('is-hidden');
-    nextButton.classList.remove('is-hidden');
-  } else if (targetIndex === carouselItems.length - 1) {
-    prevButton.classList.remove('is-hidden');
-    nextButton.classList.add('is-hidden');
+  if (postsElement) {
+    // Clean up current list of posts displayed on UI
+    utils.resetElementNode(postsElement);
+
+    if (Array.isArray(posts)) {
+      posts.forEach((post) => {
+        const postItemElement = renderPostItem(post);
+
+        if (postItemElement) {
+          postsElement.appendChild(postItemElement);
+        }
+      });
+    }
   } else {
-    prevButton.classList.remove('is-hidden');
-    nextButton.classList.remove('is-hidden');
+    console.log("Ooops! Can't find postsList item");
   }
 };
 
-// When i click right, move carousel to the right
-nextButton.addEventListener('click', () => {
-  const currentCarouselItem = document.querySelector('.carousel-item.active');
-  const nextCarouselItem = currentCarouselItem.nextElementSibling;
-  const currentCarouselIndicator = document.querySelector(
-    '.carousel-indicator.active'
-  );
-  const targetCarouselIndicator = currentCarouselIndicator.nextElementSibling;
-  const nextIndex = carouselItems.findIndex(
-    (carouselItem) => carouselItem === nextCarouselItem
-  );
+// ----------------
+// MAIN
+// ----------------
+const init = async () => {
+  try {
+    const response = await postApi.getAll();
+    if (response) {
+      const { data: posts } = response;
+      renderPostList(posts);
+    }
+  } catch (error) {
+    console.log('Failed to fetch list of posts: ', error);
+  }
+};
 
-  moveToCarouselItem(carouselList, currentCarouselItem, nextCarouselItem);
-  updateIndicators(currentCarouselIndicator, targetCarouselIndicator);
-  hideShowCarouselControl(carouselItems, prevButton, nextButton, nextIndex);
-});
-
-// When i click left, move carousel to the left
-prevButton.addEventListener('click', () => {
-  const currentCarouselItem = document.querySelector('.carousel-item.active');
-  const prevCarouselItem = currentCarouselItem.previousElementSibling;
-  const currentCarouselIndicator = document.querySelector(
-    '.carousel-indicator.active'
-  );
-  const targetCarouselIndicator =
-    currentCarouselIndicator.previousElementSibling;
-  const prevIndex = carouselItems.findIndex(
-    (carouselItem) => carouselItem === prevCarouselItem
-  );
-
-  moveToCarouselItem(carouselList, currentCarouselItem, prevCarouselItem);
-  updateIndicators(currentCarouselIndicator, targetCarouselIndicator);
-  hideShowCarouselControl(carouselItems, prevButton, nextButton, prevIndex);
-});
-
-// When i click the carousel indicators, move to that carousel item
-carouselIndicatorList.addEventListener('click', (e) => {
-  const targetCarouselIndicator = e.target;
-  if (!targetCarouselIndicator) return;
-
-  const currentCarouselItem = document.querySelector('.carousel-item.active');
-  const currentCarouselIndicator = document.querySelector(
-    '.carousel-indicator.active'
-  );
-
-  const targetIndex = carouselIndicators.findIndex(
-    (item) => item === targetCarouselIndicator
-  );
-
-  moveToCarouselItem(
-    carouselList,
-    currentCarouselItem,
-    carouselItems[targetIndex]
-  );
-  updateIndicators(currentCarouselIndicator, targetCarouselIndicator);
-
-  hideShowCarouselControl(carouselItems, prevButton, nextButton, targetIndex);
-});
+init();

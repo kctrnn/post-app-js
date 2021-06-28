@@ -215,6 +215,12 @@
 
 .card-title + .card-text {
   margin-bottom: 1.6rem;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-text:last-child {
@@ -232,7 +238,7 @@
 
   position: absolute;
   right: 2rem;
-  top: 2rem;
+  top: 1.2rem;
 
   transform: scale(0.5);
   transform-origin: top;

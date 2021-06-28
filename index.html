@@ -24,6 +24,55 @@
     <link rel="stylesheet" href="css/home.css" />
   </head>
   <body>
+    <!-- This is template HTML for a post item -->
+    <template id="postItemTemplate">
+      <li class="posts-item">
+        <div class="card">
+          <img
+            src="images/1.jpg"
+            alt=""
+            class="card-img"
+            id="postItemImg"
+            onerror="this.onerror=null; this.src='https://picsum.photos/1368/400';"
+          />
+
+          <div class="card-body">
+            <h5 class="card-title" id="postItemTitle">Card title</h5>
+            <p class="card-text" id="postItemDesc">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque
+              eos possimus fuga! Quam veritatis assumenda quia quos sed
+              explicabo rerum, ipsum qui dolorum accusantium.
+            </p>
+            <p class="card-text">
+              <small>by</small>
+              <small class="card-author" id="postItemAuthor">Kim Chan</small>
+              <small class="card-date" id="postItemTime">
+                - 22:47 12/06/2021</small
+              >
+            </p>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn--circle">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="btn btn--circle">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn--circle">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="btn btn--circle">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </li>
+    </template>
+
     <header>
       <nav class="navbar">
         <div class="container navbar-inner">
@@ -75,9 +124,13 @@
           <h1 class="posts-title">Latest posts</h1>
 
           <ul class="posts-list">
-            <li class="posts-item">
+            <!-- <li class="posts-item">
               <div class="card">
-                <img src="images/3.jpg" alt="" class="card-img" />
+                <img
+                  src="https://picsum.photos/id/490/1368/400"
+                  alt=""
+                  class="card-img"
+                />
 
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
@@ -227,7 +280,7 @@
                   </button>
                 </div>
               </div>
-            </li>
+            </li> -->
           </ul>
 
           <nav class="posts-nav">
@@ -257,6 +310,11 @@
 
     <footer>Created by @kctrnn</footer>
 
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="js/carousel.js"></script>
     <script async type="module" src="js/main.js"></script>
   </body>
 </html>
