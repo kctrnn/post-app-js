@@ -81,11 +81,11 @@ const getPageList = (pagination) => {
   const nextPage = prevPage + 2 > totalPages ? -1 : prevPage + 2;
 
   return [
-    _page === 1 ? 0 : _page - 1,
+    _page === 1 || _page === 1 ? 0 : _page - 1,
     prevPage,
     currPage,
     nextPage,
-    _page === totalPages ? 0 : _page + 1,
+    _page === totalPages || totalPages === _page ? 0 : _page + 1,
   ];
 };
 
