@@ -1,5 +1,6 @@
 import postApi from './api/postApi.js';
 import AppConstants from './appConstants.js';
+import queryString from './lib/queryString.js';
 import utils from './utils.js';
 
 // RENDER POSTS
@@ -62,15 +63,100 @@ const renderPostList = (posts) => {
   }
 };
 
+const getPageList = (pagination) => {
+  const { _page, _limit, _totalRows } = pagination;
+  const totalPages = Math.ceil(_totalRows / _limit);
+
+  // Return -1 if invalid page detected
+  if (_page < 1 || _page > totalPages) return [0, -1, -1, -1, 0];
+
+  let prevPage = -1;
+
+  // Calculate prev page
+  if (_page === 1) prevPage = 1;
+  else if (_page === totalPages) prevPage = _page - 2 > 0 ? _page - 2 : 1;
+  else prevPage = _page - 1;
+
+  const currPage = prevPage + 1 > totalPages ? -1 : prevPage + 1;
+  const nextPage = prevPage + 2 > totalPages ? -1 : prevPage + 2;
+
+  return [
+    _page === 1 ? 0 : _page - 1,
+    prevPage,
+    currPage,
+    nextPage,
+    _page === totalPages ? 0 : _page + 1,
+  ];
+};
+
+const renderPostsPagination = (pagination) => {
+  const postPagination = document.getElementById('postPagination');
+  if (postPagination) {
+    const pageList = getPageList(pagination);
+
+    const { _page, _limit } = pagination;
+
+    const pageItems = postPagination.querySelectorAll('.page-item');
+
+    if (pageItems.length === 5) {
+      pageItems.forEach((pageItem, index) => {
+        switch (pageList[index]) {
+          case -1:
+            pageItem.setAttribute('hidden', '');
+            break;
+
+          case 0:
+            pageItem.classList.add('disabled');
+            break;
+          default: {
+            const pageLink = pageItem.querySelector('.page-link');
+
+            if (pageLink) {
+              pageLink.href =
+                pageList[index] !== 1
+                  ? `?_page=${pageList[index]}&_limit=${_limit}`
+                  : '/';
+
+              if (index > 0 && index < 4) {
+                pageLink.textContent = pageList[index];
+              }
+            }
+
+            if (index > 0 && index < 4 && pageList[index] === _page) {
+              pageItem.classList.add('active');
+            }
+          }
+        }
+      });
+    }
+  }
+};
+
 // ----------------
 // MAIN
 // ----------------
 const init = async () => {
   try {
-    const response = await postApi.getAll();
+    let search = location.search;
+    // Remove beginning question mark
+    search = search ? search.substring(1) : '';
+
+    const { _page, _limit } = queryString.parse(search);
+
+    const params = {
+      _page: _page || AppConstants.DEFAULT_PAGE,
+      _limit: _limit || AppConstants.DEFAULT_LIMIT,
+      _sort: 'updatedAt',
+      _order: 'desc',
+    };
+
+    const response = await postApi.getAll(params);
+
     if (response) {
-      const { data: posts } = response;
+      const { data: posts, pagination } = response;
+
       renderPostList(posts);
+      renderPostsPagination(pagination);
     }
   } catch (error) {
     console.log('Failed to fetch list of posts: ', error);

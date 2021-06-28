@@ -83,8 +83,8 @@ ul {
 
 .btn--circle {
   border-radius: 50%;
-  width: 4rem;
-  height: 4rem;
+  width: 3.6rem;
+  height: 3.6rem;
 }
 
 .btn > * {

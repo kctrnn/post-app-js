@@ -1,13 +1,7 @@
-import AppConstants from '../appConstants.js';
 import axiosClient from './axiosClient.js';
 
 const postApi = {
-  getAll: (
-    params = {
-      _page: AppConstants.DEFAULT_PAGE,
-      _limit: AppConstants.DEFAULT_LIMIT,
-    }
-  ) => {
+  getAll: (params) => {
     const url = '/posts';
     return axiosClient.get(url, { params });
   },
