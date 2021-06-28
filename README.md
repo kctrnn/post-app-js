@@ -1,1 +1,2 @@
-# Post App - a project I build with vanilla javascript
+# Post App 🥰🥰
+> a project I build with vanilla javascript
