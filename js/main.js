@@ -112,10 +112,7 @@ const renderPostsPagination = (pagination) => {
             const pageLink = pageItem.querySelector('.page-link');
 
             if (pageLink) {
-              pageLink.href =
-                pageList[index] !== 1
-                  ? `?_page=${pageList[index]}&_limit=${_limit}`
-                  : '/';
+              pageLink.href = `?_page=${pageList[index]}&_limit=${_limit}`;
 
               if (index > 0 && index < 4) {
                 pageLink.textContent = pageList[index];
