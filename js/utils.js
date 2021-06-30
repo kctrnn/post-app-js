@@ -20,6 +20,21 @@ const utils = {
 
     return `${hour}:${minute} ${day}/${month}/${year}`;
   },
+
+  getBackgroundImageByElementId: (elementId) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      const url = element.style.backgroundImage;
+
+      const firstDoubleQuotePosition = url.indexOf('"');
+      const lastDoubleQuotePosition = url.lastIndexOf('"');
+
+      return url.substring(
+        firstDoubleQuotePosition + 1,
+        lastDoubleQuotePosition
+      );
+    }
+  },
 };
 
 export default utils;

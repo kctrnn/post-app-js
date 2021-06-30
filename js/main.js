@@ -39,7 +39,53 @@ const renderPostItem = (post) => {
     timeElement.textContent = ` - ${timeString}`;
   }
 
+  // Go to edit page when click on edit icon
+  const editPostButton = postItemElement.querySelector('#editPost');
+  if (editPostButton) {
+    editPostButton.addEventListener('click', (e) => {
+      const editPageUrl = `add-edit-post.html?postId=${post.id}`;
+
+      // Go to detail page
+      window.location = editPageUrl;
+
+      // Prevent bubbling click event on parent element
+      e.stopPropagation();
+    });
+  }
+
+  // Confirm to remove a post
+  const deletePostButton = postItemElement.querySelector('#deletePost');
+  if (deletePostButton) {
+    deletePostButton.addEventListener('click', (e) => {
+      handleDeletePost(post.id);
+
+      // Prevent bubbling click event on parent element
+      e.stopPropagation();
+    });
+  }
+
+  // Add item click to go view detail page
+  const postItem = postItemElement.getElementById('postItem');
+  postItem.addEventListener('click', () => {
+    const detailPageUrl = `post-detail.html?postId=${post.id}`;
+
+    // Go to detail page
+    window.location = detailPageUrl;
+  });
+
   return postItemElement;
+};
+
+const handleDeletePost = async (postId) => {
+  try {
+    if (window.confirm('Do you really want to delete this post? 🙂')) {
+      await postApi.deletePost(postId);
+
+      window.location.reload();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const renderPostList = (posts) => {
@@ -89,7 +135,7 @@ const getPageList = (pagination) => {
   ];
 };
 
-const renderPostsPagination = (pagination) => {
+const renderPostPagination = (pagination) => {
   const postPagination = document.getElementById('postPagination');
   if (postPagination) {
     const pageList = getPageList(pagination);
@@ -136,7 +182,7 @@ const init = async () => {
   try {
     let search = location.search;
     // Remove beginning question mark
-    search = search ? search.substring(1) : '';
+    search = search && search.substring(1);
 
     const { _page, _limit } = queryString.parse(search);
 
@@ -153,7 +199,7 @@ const init = async () => {
       const { data: posts, pagination } = response;
 
       renderPostList(posts);
-      renderPostsPagination(pagination);
+      renderPostPagination(pagination);
     }
   } catch (error) {
     console.log('Failed to fetch list of posts: ', error);

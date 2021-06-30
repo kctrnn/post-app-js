@@ -10,7 +10,7 @@ const AppConstants = {
   DEFAULT_IMAGE_HEIGHT: 400,
 
   // API URL
-  API_URL: 'https://js-post-api.herokuapp.com/api',
+  API_URL: 'https://json-server-kctrnn.herokuapp.com/api',
 };
 
 export default AppConstants;

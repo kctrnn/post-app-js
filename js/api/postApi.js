@@ -20,7 +20,7 @@ const postApi = {
     if (!newPost.id) throw new Error('Missing id in post object');
 
     const url = `/posts/${newPost.id}`;
-    return axiosClient.put(url, newPost);
+    return axiosClient.patch(url, newPost);
   },
 
   deletePost: (postId) => {

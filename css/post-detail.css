@@ -1,0 +1,39 @@
+/* SECTION HERO */
+
+.hero {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  height: 30rem;
+}
+
+/* SECTION POST DETAIL */
+.post-detail {
+  transform: translateY(-6.4rem);
+}
+
+.post-detail-inner {
+  padding: 3.2rem;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.post-detail-title {
+  font-size: 4rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+}
+
+.post-detail-subtitle {
+  color: var(--gray);
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.post-image {
+  margin-top: 3.2rem;
+  margin-bottom: 3.2rem;
+}
