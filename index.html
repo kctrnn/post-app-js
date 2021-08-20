@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/shared/header.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/loading.css" />
   </head>
   <body>
     <!-- This is template HTML for a post item -->
@@ -64,6 +65,17 @@
         </div>
       </li>
     </template>
+
+    <!-- Loading -->
+    <div id="loadingWrapper">
+      <div class="cloud"></div>
+
+      <div class="cloud"></div>
+
+      <div class="cloud"></div>
+
+      <div class="airplane"></div>
+    </div>
 
     <header>
       <nav class="navbar">
@@ -144,11 +156,13 @@
 
     <footer>Created by @kctrnn</footer>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+    <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <!-- carousel -->
     <script src="js/carousel.js"></script>
+
+    <!-- scripts -->
     <script async type="module" src="js/main.js"></script>
   </body>
 </html>

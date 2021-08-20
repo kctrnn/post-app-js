@@ -1,12 +1,10 @@
 import AppConstants from '../appConstants.js';
-import queryString from '../lib/queryString.js';
 
 const axiosClient = axios.create({
   baseURL: AppConstants.API_URL,
   headers: {
     'content-type': 'application/json',
   },
-  paramsSerializer: (params) => queryString.stringify(params),
 });
 
 // Add a request interceptor

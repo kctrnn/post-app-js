@@ -1,6 +1,5 @@
 import postApi from './api/postApi.js';
 import AppConstants from './appConstants.js';
-import queryString from './lib/queryString.js';
 import utils from './utils.js';
 
 const fillPostData = (post) => {
@@ -43,12 +42,10 @@ const fillPostData = (post) => {
 // ---------------------------
 // MAIN LOGIC
 // ---------------------------
-const init = async () => {
-  let search = location.search;
-  // Remove beginning question mark
-  search = search && search.substring(1);
+(async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const postId = urlParams.get('postId');
 
-  const { postId } = queryString.parse(search);
   if (postId) {
     // Fetch post detail by id
     const post = await postApi.get(postId);
@@ -56,10 +53,14 @@ const init = async () => {
     // Fill post data
     fillPostData(post);
 
+    const loading = document.querySelector('#loadingWrapper');
+    if (loading) {
+      loading.style.display = 'none';
+    }
+
     // Show view edit link
     const goToEditPageLink = document.getElementById('goToEditPageLink');
     goToEditPageLink.href = `add-edit-post.html?postId=${post.id}`;
     goToEditPageLink.innerHTML = '<i class="fas fa-edit"></i> Edit post';
   }
-};
-init();
+})();

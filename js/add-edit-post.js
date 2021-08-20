@@ -1,7 +1,6 @@
-import utils from './utils.js';
-import queryString from './lib/queryString.js';
 import postApi from './api/postApi.js';
 import AppConstants from './appConstants.js';
+import utils from './utils.js';
 
 const inputTitle = document.querySelector('#inputTitle');
 const inputAuthor = document.querySelector('#inputAuthor');
@@ -54,11 +53,10 @@ const handleSubmit = async (postId) => {
   }
 };
 
-const init = async () => {
-  let search = location.search;
-  search = search && search.substring(1);
+(async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const postId = urlParams.get('postId');
 
-  const { postId } = queryString.parse(search);
   const isAddMode = !postId;
 
   if (isAddMode) {
@@ -91,6 +89,4 @@ const init = async () => {
       handleSubmit(postId);
     });
   }
-};
-
-init();
+})();

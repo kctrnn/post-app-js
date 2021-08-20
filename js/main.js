@@ -1,6 +1,5 @@
 import postApi from './api/postApi.js';
 import AppConstants from './appConstants.js';
-import queryString from './lib/queryString.js';
 import utils from './utils.js';
 
 // RENDER POSTS
@@ -178,21 +177,18 @@ const renderPostPagination = (pagination) => {
 // ----------------
 // MAIN
 // ----------------
-const init = async () => {
+(async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const [_page, _limit] = [urlParams.get('_page'), urlParams.get('_limit')];
+
+  const params = {
+    _page: _page || AppConstants.DEFAULT_PAGE,
+    _limit: _limit || AppConstants.DEFAULT_LIMIT,
+    _sort: 'updatedAt',
+    _order: 'desc',
+  };
+
   try {
-    let search = location.search;
-    // Remove beginning question mark
-    search = search && search.substring(1);
-
-    const { _page, _limit } = queryString.parse(search);
-
-    const params = {
-      _page: _page || AppConstants.DEFAULT_PAGE,
-      _limit: _limit || AppConstants.DEFAULT_LIMIT,
-      _sort: 'updatedAt',
-      _order: 'desc',
-    };
-
     const response = await postApi.getAll(params);
 
     if (response) {
@@ -200,10 +196,13 @@ const init = async () => {
 
       renderPostList(posts);
       renderPostPagination(pagination);
+
+      const loading = document.querySelector('#loadingWrapper');
+      if (loading) {
+        loading.style.display = 'none';
+      }
     }
   } catch (error) {
     console.log('Failed to fetch list of posts: ', error);
   }
-};
-
-init();
+})();
